@@ -1,13 +1,16 @@
 package com.example.pc_8.datos;
 
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -41,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
         preferencias = getSharedPreferences("Preferencias",MODE_PRIVATE);
         editor = preferencias.edit();
         //  Agrega datos a SP
-        agregaDatosSP();
+        //agregaDatosSP();
 
         //  Muestra los datos
-        recuperaDatosSP();
+        //recuperaDatosSP();
 
         /**
          * Guarda Datos en archivos
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No se pudo leer.\n" + e.getMessage(),Toast.LENGTH_LONG).show();
         }
         leerDatosArchivo();
+
+
+        escribeArchivoEnExternalStorage();
 
 
     }
@@ -107,6 +113,29 @@ public class MainActivity extends AppCompatActivity {
                 encabezado.append("\n" + linea);
             }
         } catch (FileNotFoundException e) {
+            Toast.makeText(this, "No se encontro el archivo\n" + e.getMessage(),Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            Toast.makeText(this, "No se pudo leer.\n" + e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void escribeArchivoEnExternalStorage()
+    {
+
+
+        try {
+            File microSD = Environment.getExternalStorageDirectory();
+            File directorio = new File(microSD.getAbsolutePath() + "/carpeta1/carpeta2");
+            directorio.mkdirs();
+
+            File archivo = new File(microSD.getAbsolutePath() + "/carpeta1/carpeta2" , "archivoExterno.html");
+            OutputStreamWriter archivoEscritura = new OutputStreamWriter(
+                    new FileOutputStream(archivo));
+            String s = "<HTML><BODY><H1>Sitio Web</H1></BODY></HTML>";
+            archivoEscritura.write(s);
+            archivoEscritura.close();
+
+        }  catch (FileNotFoundException e) {
             Toast.makeText(this, "No se encontro el archivo\n" + e.getMessage(),Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             Toast.makeText(this, "No se pudo leer.\n" + e.getMessage(),Toast.LENGTH_LONG).show();
