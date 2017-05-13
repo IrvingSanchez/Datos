@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
             archivoEscritura.write("\n Estoy escribiendo de nuevo.");
             archivoEscritura.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "No se encontro el archivo\n" + e.getMessage(),Toast.LENGTH_LONG).show();
         } catch (IOException e) {
-            Toast.makeText(this,e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No se pudo leer.\n" + e.getMessage(),Toast.LENGTH_LONG).show();
         }
         leerDatosArchivo();
 
@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
                 encabezado.append("\n" + linea);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "No se encontro el archivo\n" + e.getMessage(),Toast.LENGTH_LONG).show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(this, "No se pudo leer.\n" + e.getMessage(),Toast.LENGTH_LONG).show();
         }
     }
 
